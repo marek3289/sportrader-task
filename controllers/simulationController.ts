@@ -1,21 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
 
-// import InMemoryScoreboardStore from '../models/scoreboard';
-// const scoreboard = new InMemoryScoreboardStore();
-// const simulation = new InMemoryScoreboardStore();
+import Simulation from '../services/simulation';
 
-const scores = (req: Request, res: Response, _next: NextFunction) => {};
+const simulation = new Simulation();
 
-const start = (req: Request, res: Response, _next: NextFunction) => {};
+const scores = (_req: Request, res: Response, _next: NextFunction) => {
+  const data = simulation.getState()
+  res.status(201).json({ status: 'success', data });
+};
 
-const stop = (req: Request, res: Response, _next: NextFunction) => {};
+const start = (_req: Request, res: Response, _next: NextFunction) => {
+  simulation.startSimulation()
+  res.status(201).json({ status: 'success' });
+};
 
-const restart = (req: Request, res: Response, _next: NextFunction) => {};
+const finish = (_req: Request, res: Response, _next: NextFunction) => {
+  simulation.finishSimulation()
+  res.status(201).json({ status: 'success' });
+};
 
+const restart = (_req: Request, res: Response, _next: NextFunction) => {
+  simulation.restartSimulation()
+  res.status(201).json({ status: 'success' });
+};
 
 export default {
   scores,
   start,
-  stop,
+  finish,
   restart,
 };
